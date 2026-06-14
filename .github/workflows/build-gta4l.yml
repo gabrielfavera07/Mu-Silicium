@@ -1,0 +1,21 @@
+name: Build gta4l UEFI
+on:
+  workflow_dispatch:
+  push:
+    branches: ["main"]
+    paths: ['.github/workflows/build-gta4l.yml']
+env:
+  CI_BUILD: true
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build gta4l UEFI (DEBUG)
+        run: bash ./setup_env.sh -p apt && python3 build_uefi.py -d gta4l -r DEBUG
+      - name: Upload gta4l UEFI
+        uses: actions/upload-artifact@v4
+        with:
+          name: uefi-gta4l
+          path: ./Mu-gta4l-*
+          compression-level: 9
