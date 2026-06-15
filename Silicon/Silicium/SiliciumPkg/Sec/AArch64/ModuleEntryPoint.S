@@ -13,18 +13,6 @@
 .set CTRL_SPAN_BIT, (1 << 23)
 
 ASM_FUNC (_ModuleEntryPoint)
-  // === DIAG: paint cont_splash 0x5C000000 GREEN to prove SEC entry reached ===
-  movz  x20, #0x0000
-  movk  x20, #0x5C00, lsl #16     // x20 = 0x5C000000 (framebuffer)
-  movz  w21, #0xFF00
-  movk  w21, #0xFF00, lsl #16     // w21 = 0xFF00FF00 (green)
-  movz  x22, #0x0000
-  movk  x22, #0x0040, lsl #16     // x22 = 0x00400000 (word count)
-7:str   w21, [x20], #4
-  subs  x22, x22, #1
-  b.ne  7b
-  // === end DIAG ===
-
   // Do Platform Specific Initialization
   bl    ASM_PFX (PlatformAssemblyInitialize)
 
@@ -87,18 +75,6 @@ ASM_PFX (MainEntryPoint):
 
   // Clear Frame pointer
   mov   x29, xzr
-
-  // === DIAG: paint BLUE right before entering C (CEntryPoint) ===
-  movz  x20, #0x0000
-  movk  x20, #0x5C00, lsl #16
-  movz  w21, #0x00FF
-  movk  w21, #0xFF00, lsl #16     // w21 = 0xFF0000FF (blue)
-  movz  x22, #0x0000
-  movk  x22, #0x0040, lsl #16
-8:str   w21, [x20], #4
-  subs  x22, x22, #1
-  b.ne  8b
-  // === end DIAG ===
 
   // Jump to C Code
   blr   x2
