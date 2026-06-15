@@ -270,8 +270,8 @@ CEntryPoint (
 
   DiagPaint (0xFF808080);   // GRAY = past LocateMemoryRegionByName(UEFI FD)
 
-  // Invalidate Stack D-Cache
-  InvalidateDataCacheRange ((VOID *)StackBase, StackSize);
+  // Invalidate Stack D-Cache  -- DISABLED: hangs on our boot (cache-line/fault)
+  // InvalidateDataCacheRange ((VOID *)StackBase, StackSize);
 
   // Enter SEC Main Function
   SecMain (StackBase, StackSize);
