@@ -1,0 +1,30 @@
+## @file
+#  SM6115 (Bengal) dwc3 USB device-mode bring-up for Windows KDNET-EEM.
+##
+
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = UsbDeviceModeDxe
+  FILE_GUID                      = 7b1c4e2a-9f3d-4a6b-8c2e-5d0a1b6f9e34
+  MODULE_TYPE                    = DXE_DRIVER
+  VERSION_STRING                 = 1.0
+  ENTRY_POINT                    = UsbDeviceModeDxeEntry
+
+[Sources]
+  UsbDeviceModeDxe.c
+
+[Packages]
+  MdePkg/MdePkg.dec
+
+[LibraryClasses]
+  UefiDriverEntryPoint
+  UefiBootServicesTableLib
+  UefiLib
+  DebugLib
+  IoLib
+
+[Guids]
+  gEfiEventReadyToBootGuid          ## CONSUMES ## Event
+
+[Depex]
+  TRUE
