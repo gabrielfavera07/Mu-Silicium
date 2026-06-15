@@ -20,6 +20,21 @@
 
 STATIC EFI_MEMORY_REGION_DESCRIPTOR UefiFdRegion;
 
+// === DIAG: paint the cont_splash framebuffer a solid color to trace boot stages ===
+STATIC
+VOID
+DiagPaint (
+  IN UINT32 Color)
+{
+  volatile UINT32 *Fb = (volatile UINT32 *)0x5C000000;
+  for (UINTN i = 0; i < 0x3C0000; i++) {
+    Fb[i] = Color;
+  }
+  // Flush to RAM so the display scanout (still reading cont_splash) shows it
+  // even after the MMU maps this region cacheable.
+  WriteBackDataCacheRange ((VOID *)(UINTN)0x5C000000, 0xF00000);
+}
+
 #ifndef MDEPKG_NDEBUG
 STATIC
 VOID
@@ -163,11 +178,15 @@ SecMain (
 {
   EFI_STATUS Status;
 
+  DiagPaint (0xFF00FFFF);   // CYAN = SecMain entered
+
   // Initialize Serial Port
   Status = SerialPortInitialize ();
   if (EFI_ERROR (Status)) {
     return;
   }
+
+  DiagPaint (0xFFFFFF00);   // YELLOW = past SerialPortInitialize
 
   // Print Firmware Version
   PrintFirmwareVersion ();
@@ -181,6 +200,8 @@ SecMain (
   if (EFI_ERROR (Status)) {
     return;
   }
+
+  DiagPaint (0xFFFF00FF);   // MAGENTA = past InitializeMemory (MemoryPeim/MMU)
 
   // Build CPU HOB
   BuildCpuHob (ArmGetPhysicalAddressBits (), PcdGet8 (PcdPrePiCpuIoSize));
@@ -211,6 +232,8 @@ SecMain (
     return;
   }
 
+  DiagPaint (0xFFFFFFFF);   // WHITE = past DecompressFvs, about to LoadDxeCore
+
   // Load DXE Core
   Status = LoadDxeCoreFromFv (NULL, 0);
   if (EFI_ERROR (Status)) {
@@ -230,8 +253,12 @@ CEntryPoint (
   // Enable new Exception Vector Table
   ArmWriteVBar ((UINTN)SecVectorTable);
 
+  DiagPaint (0xFFFF0000);   // RED = CEntryPoint past ArmWriteVBar
+
   // Do Platform Specific Initialization
   PlatformInitialize ();
+
+  DiagPaint (0xFFFF8000);   // ORANGE = past PlatformInitialize
 
   // Locate "UEFI FD" Memory Region
   Status = LocateMemoryRegionByName ("UEFI FD", &UefiFdRegion);
@@ -244,7 +271,9 @@ CEntryPoint (
     }
   }
 
-  // Invalidate Stack D-Cache  -- DISABLED: hangs on our gta4l hybrid boot
+  DiagPaint (0xFF808080);   // GRAY = past LocateMemoryRegionByName(UEFI FD)
+
+  // Invalidate Stack D-Cache  -- DISABLED: hangs on our boot (cache-line/fault)
   // InvalidateDataCacheRange ((VOID *)StackBase, StackSize);
 
   // Enter SEC Main Function
