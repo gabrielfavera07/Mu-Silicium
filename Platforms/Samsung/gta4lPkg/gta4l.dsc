@@ -83,3 +83,8 @@
   # KDNET-EEM USB device-mode bring-up (dwc3 @ 0x04E00000)
   #
   gta4lPkg/Drivers/UsbDeviceModeDxe/UsbDeviceModeDxe.inf
+
+  #
+  # Handoff probe (framebuffer bands per milestone)
+  #
+  gta4lPkg/Drivers/EbsProbeDxe/EbsProbeDxe.inf

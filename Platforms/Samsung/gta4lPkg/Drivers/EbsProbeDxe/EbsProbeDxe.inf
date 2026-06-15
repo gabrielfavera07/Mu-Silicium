@@ -1,0 +1,37 @@
+## @file
+#  Fine-grained winload->kernel handoff probe: lights one framebuffer band per
+#  milestone (EndOfDxe / ReadyToBoot / ExitBootServices / kernel runtime calls).
+##
+
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = EbsProbeDxe
+  FILE_GUID                      = 3a9c7e14-2b6d-4f81-9a05-7c1e8d2b6f40
+  MODULE_TYPE                    = DXE_RUNTIME_DRIVER
+  VERSION_STRING                 = 1.0
+  ENTRY_POINT                    = EbsProbeDxeEntry
+
+[Sources]
+  EbsProbeDxe.c
+
+[Packages]
+  MdePkg/MdePkg.dec
+
+[LibraryClasses]
+  UefiDriverEntryPoint
+  UefiBootServicesTableLib
+  UefiRuntimeServicesTableLib
+  UefiLib
+  DebugLib
+  BaseLib
+
+[Protocols]
+  gEfiGraphicsOutputProtocolGuid        ## CONSUMES
+
+[Guids]
+  gEfiEventVirtualAddressChangeGuid     ## CONSUMES ## Event
+  gEfiEventReadyToBootGuid              ## CONSUMES ## Event
+  gEfiEndOfDxeEventGroupGuid            ## CONSUMES ## Event
+
+[Depex]
+  TRUE

@@ -89,9 +89,12 @@
 
   INF MdeModulePkg/Universal/BdsDxe/BdsDxe.inf
 
-  # KDNET-EEM: dwc3 USB device-mode bring-up at ReadyToBoot (lets winload's
-  # kd_8003_5143 transport enumerate over USB-C). DBG2 points winload at it.
-  INF gta4lPkg/Drivers/UsbDeviceModeDxe/UsbDeviceModeDxe.inf
+  # KDNET-EEM: dwc3 USB device-mode bring-up. DISABLED for the framebuffer-probe
+  # test - the EEM enumeration crashes the host PC, and the probe needs no USB.
+  # INF gta4lPkg/Drivers/UsbDeviceModeDxe/UsbDeviceModeDxe.inf
+
+  # Handoff probe: lights one framebuffer band per milestone (winload->kernel).
+  INF gta4lPkg/Drivers/EbsProbeDxe/EbsProbeDxe.inf
 
   INF Binaries/gta4l/QcomPkg/Drivers/PILDxe/PILDxe.inf
   INF Binaries/gta4l/QcomPkg/Drivers/ShmBridgeDxe/ShmBridgeDxeLA.inf
