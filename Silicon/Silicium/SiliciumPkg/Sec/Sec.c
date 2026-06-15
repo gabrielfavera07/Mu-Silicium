@@ -236,6 +236,14 @@ SecMain (
 
   // Load DXE Core
   Status = LoadDxeCoreFromFv (NULL, 0);
+
+  // DIAG: we only reach here if LoadDxeCoreFromFv RETURNED (it normally
+  // transfers control to DXE Core and never comes back). PURPLE = returned
+  // error (DXE Core load failed in SEC); TEAL = returned success (anomalous).
+  // If the screen stays WHITE, it hung inside the load or DXE Core was
+  // entered and died before it could paint.
+  DiagPaint (EFI_ERROR (Status) ? 0xFF800080 : 0xFF008080);
+
   if (EFI_ERROR (Status)) {
     DEBUG ((EFI_D_ERROR, "Failed to Load DXE Core! Status = %r\n", Status));
   }
