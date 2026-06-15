@@ -88,5 +88,17 @@ ASM_PFX (MainEntryPoint):
   // Clear Frame pointer
   mov   x29, xzr
 
+  // === DIAG: paint BLUE right before entering C (CEntryPoint) ===
+  movz  x20, #0x0000
+  movk  x20, #0x5C00, lsl #16
+  movz  w21, #0x00FF
+  movk  w21, #0xFF00, lsl #16     // w21 = 0xFF0000FF (blue)
+  movz  x22, #0x0000
+  movk  x22, #0x0040, lsl #16
+8:str   w21, [x20], #4
+  subs  x22, x22, #1
+  b.ne  8b
+  // === end DIAG ===
+
   // Jump to C Code
   blr   x2
