@@ -250,8 +250,12 @@ CEntryPoint (
   // Enable new Exception Vector Table
   ArmWriteVBar ((UINTN)SecVectorTable);
 
+  DiagPaint (0xFFFF0000);   // RED = CEntryPoint past ArmWriteVBar
+
   // Do Platform Specific Initialization
   PlatformInitialize ();
+
+  DiagPaint (0xFFFF8000);   // ORANGE = past PlatformInitialize
 
   // Locate "UEFI FD" Memory Region
   Status = LocateMemoryRegionByName ("UEFI FD", &UefiFdRegion);
@@ -263,6 +267,8 @@ CEntryPoint (
       ASSERT_EFI_ERROR (Status);
     }
   }
+
+  DiagPaint (0xFF808080);   // GRAY = past LocateMemoryRegionByName(UEFI FD)
 
   // Invalidate Stack D-Cache
   InvalidateDataCacheRange ((VOID *)StackBase, StackSize);
