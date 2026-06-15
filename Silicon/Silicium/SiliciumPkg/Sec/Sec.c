@@ -20,6 +20,18 @@
 
 STATIC EFI_MEMORY_REGION_DESCRIPTOR UefiFdRegion;
 
+// === DIAG: paint the cont_splash framebuffer a solid color to trace boot stages ===
+STATIC
+VOID
+DiagPaint (
+  IN UINT32 Color)
+{
+  volatile UINT32 *Fb = (volatile UINT32 *)0x5C000000;
+  for (UINTN i = 0; i < 0x3C0000; i++) {
+    Fb[i] = Color;
+  }
+}
+
 #ifndef MDEPKG_NDEBUG
 STATIC
 VOID
@@ -163,11 +175,15 @@ SecMain (
 {
   EFI_STATUS Status;
 
+  DiagPaint (0xFF00FFFF);   // CYAN = SecMain entered
+
   // Initialize Serial Port
   Status = SerialPortInitialize ();
   if (EFI_ERROR (Status)) {
     return;
   }
+
+  DiagPaint (0xFFFFFF00);   // YELLOW = past SerialPortInitialize
 
   // Print Firmware Version
   PrintFirmwareVersion ();
@@ -181,6 +197,8 @@ SecMain (
   if (EFI_ERROR (Status)) {
     return;
   }
+
+  DiagPaint (0xFFFF00FF);   // MAGENTA = past InitializeMemory (MemoryPeim/MMU)
 
   // Build CPU HOB
   BuildCpuHob (ArmGetPhysicalAddressBits (), PcdGet8 (PcdPrePiCpuIoSize));
@@ -210,6 +228,8 @@ SecMain (
   if (EFI_ERROR (Status)) {
     return;
   }
+
+  DiagPaint (0xFFFFFFFF);   // WHITE = past DecompressFvs, about to LoadDxeCore
 
   // Load DXE Core
   Status = LoadDxeCoreFromFv (NULL, 0);
