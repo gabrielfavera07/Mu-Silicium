@@ -11,8 +11,8 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
-      - name: Build gta4l UEFI (RELEASE)
-        run: bash ./setup_env.sh -p apt && python3 build_uefi.py -d gta4l -r RELEASE
+      - name: Build gta4l UEFI (DEBUG)
+        run: bash ./setup_env.sh -p apt && python3 build_uefi.py -d gta4l -r DEBUG
       - name: Upload gta4l UEFI
         uses: actions/upload-artifact@v4
         with:
