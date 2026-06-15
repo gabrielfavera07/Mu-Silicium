@@ -89,5 +89,9 @@
 
   INF MdeModulePkg/Universal/BdsDxe/BdsDxe.inf
 
+  # KDNET-EEM: dwc3 USB device-mode bring-up at ReadyToBoot (lets winload's
+  # kd_8003_5143 transport enumerate over USB-C). DBG2 points winload at it.
+  INF gta4lPkg/Drivers/UsbDeviceModeDxe/UsbDeviceModeDxe.inf
+
   INF Binaries/gta4l/QcomPkg/Drivers/PILDxe/PILDxe.inf
   INF Binaries/gta4l/QcomPkg/Drivers/ShmBridgeDxe/ShmBridgeDxeLA.inf

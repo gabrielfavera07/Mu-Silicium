@@ -77,3 +77,9 @@
   # QCOM Libraries
   #
   ConfigurationMapLib|gta4lPkg/Library/ConfigurationMapLib/ConfigurationMapLib.inf
+
+[Components.common]
+  #
+  # KDNET-EEM USB device-mode bring-up (dwc3 @ 0x04E00000)
+  #
+  gta4lPkg/Drivers/UsbDeviceModeDxe/UsbDeviceModeDxe.inf

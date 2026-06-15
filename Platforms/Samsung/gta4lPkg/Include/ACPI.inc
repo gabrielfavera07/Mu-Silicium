@@ -1,19 +1,8 @@
-#FILE FREEFORM = 7E374E25-8E01-4FEE-87F2-390C23C606CD {
-#  SECTION RAW = Kamorta/APIC.aml
-#  SECTION RAW = Kamorta/BERT.aml
-#  SECTION RAW = Kamorta/CSRT.aml
-!if $(ENABLE_SECUREBOOT) == 0
-#  SECTION RAW = Kamorta/DBG2.aml
-!endif
-#  SECTION RAW = Kamorta/DSDT.aml
-#  SECTION RAW = gta4l/SSDT.aml
-#  SECTION RAW = Kamorta/FADT.aml
-#  SECTION RAW = Kamorta/FACP.aml
-#  SECTION RAW = Kamorta/GTDT.aml
-#  SECTION RAW = Kamorta/IORT.aml
-#  SECTION RAW = Kamorta/MCFG.aml
-#  SECTION RAW = Kamorta/MSDM.aml
-#  SECTION RAW = Kamorta/PPTT.aml
-#  SECTION RAW = Kamorta/SPCR.aml
-#  SECTION UI = "AcpiTables"
-#}
+FILE FREEFORM = 7E374E25-8E01-4FEE-87F2-390C23C606CD {
+  SECTION RAW = gta4lPkg/AcpiTables/APIC.aml
+  SECTION RAW = gta4lPkg/AcpiTables/FACP.aml
+  SECTION RAW = gta4lPkg/AcpiTables/GTDT.aml
+  SECTION RAW = gta4lPkg/AcpiTables/DSDT.aml
+  SECTION RAW = gta4lPkg/AcpiTables/DBG2.aml
+  SECTION UI = "AcpiTables"
+}
