@@ -94,7 +94,7 @@
   # INF gta4lPkg/Drivers/UsbDeviceModeDxe/UsbDeviceModeDxe.inf
 
   # Handoff probe: lights one framebuffer band per milestone (winload->kernel).
-  # INF gta4lPkg/Drivers/EbsProbeDxe/EbsProbeDxe.inf  # OFF: test if our runtime-table hooks regressed the kernel handoff
+  INF gta4lPkg/Drivers/EbsProbeDxe/EbsProbeDxe.inf
 
   INF Binaries/gta4l/QcomPkg/Drivers/PILDxe/PILDxe.inf
   INF Binaries/gta4l/QcomPkg/Drivers/ShmBridgeDxe/ShmBridgeDxeLA.inf
