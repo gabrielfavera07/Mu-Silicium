@@ -74,8 +74,11 @@ APRIORI DXE {
   INF Binaries/gta4l/QcomPkg/Drivers/QcomChargerDxe/QcomChargerDxeLA.inf
   INF Binaries/gta4l/QcomPkg/Drivers/ChargerExDxe/ChargerExDxe.inf
   INF Binaries/gta4l/QcomPkg/Drivers/UsbfnDwc3Dxe/UsbfnDwc3Dxe.inf
-  INF Binaries/generic/QcomPkg/Drivers/XhciPciEmulationDxe/XhciPciEmulationDxe.inf
-  INF Binaries/generic/QcomPkg/Drivers/XhciDxe/XhciDxe.inf
+  # XhciPciEmulationDxe + XhciDxe removed to match lime (Redmi 9T, same SM6115
+  # SoC). PCI xHCI host-mode drivers do not apply to Bengal -- USB host is
+  # UsbfnDwc3Dxe + UsbBusDxe. See the matching note in Include/DXE.inc.
+  # INF Binaries/generic/QcomPkg/Drivers/XhciPciEmulationDxe/XhciPciEmulationDxe.inf
+  # INF Binaries/generic/QcomPkg/Drivers/XhciDxe/XhciDxe.inf
 
   INF MdeModulePkg/Bus/Usb/UsbBusDxe/UsbBusDxe.inf
   INF MdeModulePkg/Bus/Usb/UsbKbDxe/UsbKbDxe.inf

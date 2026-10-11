@@ -72,8 +72,14 @@
   INF Binaries/gta4l/QcomPkg/Drivers/TsensDxe/TsensDxe.inf
   INF Binaries/gta4l/QcomPkg/Drivers/DDRInfoDxe/DDRInfoDxe.inf
   INF Binaries/gta4l/QcomPkg/Drivers/UsbfnDwc3Dxe/UsbfnDwc3Dxe.inf
-  INF Binaries/generic/QcomPkg/Drivers/XhciPciEmulationDxe/XhciPciEmulationDxe.inf
-  INF Binaries/generic/QcomPkg/Drivers/XhciDxe/XhciDxe.inf
+  # NOTE: XhciPciEmulationDxe + XhciDxe are removed to match lime (Redmi 9T).
+  # They are PCI xHCI HOST-mode drivers that do not apply to SM6115/Bengal --
+  # USB host here goes through UsbfnDwc3Dxe + UsbBusDxe, exactly like lime, which
+  # boots Windows on this same SoC. gta4l inherited them from the device template
+  # (#1603) and never needed them. Leaving them in only hunts for a PCI xHCI that
+  # does not exist and can disrupt the dwc3/device-mode handoff.
+  # INF Binaries/generic/QcomPkg/Drivers/XhciPciEmulationDxe/XhciPciEmulationDxe.inf
+  # INF Binaries/generic/QcomPkg/Drivers/XhciDxe/XhciDxe.inf
 
   INF MdeModulePkg/Bus/Usb/UsbBusDxe/UsbBusDxe.inf
   INF MdeModulePkg/Bus/Usb/UsbKbDxe/UsbKbDxe.inf
