@@ -54,7 +54,8 @@
   INF Binaries/gta4l/QcomPkg/Drivers/SdccDxe/SdccDxe.inf
   INF Binaries/gta4l/QcomPkg/Drivers/UFSDxe/UFSDxe.inf
   INF Binaries/gta4l/QcomPkg/Drivers/TLMMDxe/TLMMDxe.inf
-  INF Binaries/gta4l/QcomPkg/Drivers/MinidumpTADxe/MinidumpTADxe.inf
+  # NOTE: MinidumpTADxe disabled to free FV space for RamManagerDxe (crash-dump support is not needed to boot Windows).
+  # INF Binaries/gta4l/QcomPkg/Drivers/MinidumpTADxe/MinidumpTADxe.inf
 
 !if $(USE_CUSTOM_DISPLAY_DRIVER) == 1
   INF Binaries/gta4l/QcomPkg/Drivers/DisplayDxe/DisplayDxe.inf
@@ -104,3 +105,4 @@
 
   INF Binaries/gta4l/QcomPkg/Drivers/PILDxe/PILDxe.inf
   INF Binaries/gta4l/QcomPkg/Drivers/ShmBridgeDxe/ShmBridgeDxeLA.inf
+
