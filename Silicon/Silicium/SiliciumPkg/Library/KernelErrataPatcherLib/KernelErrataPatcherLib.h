@@ -3,6 +3,7 @@
 
   Copyright (c) 2021 Samuel Tulach
   Copyright (c) 2022-2023 DuoWoA authors
+  Copyright (c) 2026 Project Silicium
 
   SPDX-License-Identifier: MIT
 **/
@@ -11,61 +12,29 @@
 #define _KERNEL_ERRATA_PATCHER_LIB_H_
 
 //
-// ARM64 Instruction Infos
+// Save Limits
 //
-#define ARM64_INSTRUCTION_LENGTH                                        4
-#define ARM64_TOTAL_INSTRUCTION_LENGTH(x)                              (ARM64_INSTRUCTION_LENGTH * x)
-#define ARM64_BRANCH_LOCATION_INSTRUCTION(CurrentOffset, TargetOffset) (0x94000000U | ((UINT32)((TargetOffset - CurrentOffset) / ARM64_INSTRUCTION_LENGTH) & 0x7FFFFFFU))
-
-//
-// Max Scan Size
-//
-#define SCAN_MAX 0x300000
+#define MAX_LOADER_RANGES 64
 
 //
 // Functions
 //
 EFI_STATUS
-EFIAPI
-KernelErrataPatcherExitBootServices (
-  IN EFI_HANDLE           ImageHandle,
-  IN UINTN                MapKey,
-  IN EFI_PHYSICAL_ADDRESS fwpKernelSetupPhase1
-  );
+LocateMemoryAttributeProtocol (VOID);
 
-EFI_STATUS
-EFIAPI
-ExitBootServicesWrapper (
-  IN EFI_HANDLE ImageHandle,
-  IN UINTN      MapKey
-  );
-
-EFI_PHYSICAL_ADDRESS
-LocateWinloadBase (
-  IN  EFI_PHYSICAL_ADDRESS  Base,
-  OUT UINTN                *Length
-  );
-
-EFI_STATUS
-UnprotectWinload (
+BOOLEAN
+IsWinloadMemory (
   IN EFI_PHYSICAL_ADDRESS Base,
-  IN UINTN                Length
+  IN EFI_PHYSICAL_ADDRESS End
   );
+
+EFI_STATUS
+SetWinloadProtection (IN BOOLEAN Enable);
 
 VOID
-PatchOsLoaderArm64TransferToKernel (
-  IN EFI_PHYSICAL_ADDRESS  Base,
-  IN UINT8                *ShellCode,
-  IN UINTN                 ShellCodeSize
+PatchWinloadTransferToKernel (
+  IN UINT8 *ShellCode,
+  IN UINTN  ShellCodeSize
   );
-
-EFI_STATUS
-ReProtectWinload (
-  IN EFI_PHYSICAL_ADDRESS Base,
-  IN UINTN                Length
-  );
-
-EFI_STATUS
-LocateMemoryAttributeProtocol ();
 
 #endif /* _KERNEL_ERRATA_PATCHER_LIB_H_ */
